@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify Clone</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="bg-dark text-white py-4">
+        <div class="container">
+            <h1 class="text-center">Spotify Clone</h1>
+            <input type="text" id="search" class="form-control mx-auto mt-4 search-input" placeholder="Search for songs...">
+        </div>
+    </header>
+
+    <div class="container mt-5">
+        <div id="audio-player-container" class="mb-4">
+            <audio id="audio-player" class="w-100" controls></audio>
+            <span id="song-duration" class="text-success"></span>
+        </div>
+    </div>
+
+    <main id="results" class="container">
+        <!-- Search results will be displayed here -->
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
