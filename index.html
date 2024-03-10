@@ -4,28 +4,332 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spotify Clone</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-jVw3oIBzOCJwWUkkFqYvfe6nvkZgEKptX6z83+J1d2ByzEZLUtwadYHqTqF4dK4fWlQ5e5sD4NIf3ZprjxgMAw==" crossorigin="anonymous" />
+    <!-- Custom CSS -->
+    <style>
+body {
+    background-color: #191414;
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+}
+
+.container {
+    max-width: 90%;
+    margin: 0 auto;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.input-group {
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#searchInput {
+    background-color: #282828;
+    color: #fff;
+    border: none;
+    width: calc(100% - 100px);
+    padding: 0.5rem;
+    font-size: 1rem;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#searchInput:focus {
+    outline: none;
+    background-color: #333;
+    box-shadow: 0 0 10px rgba(30, 215, 96, 0.5);
+}
+
+/* New CSS for enhanced search results */
+
+#searchResults {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    list-style: none;
+    padding: 0;
+    transition: transform 0.3s ease;
+}
+
+.song-item {
+    background-color: #282828;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    font-size: 0.9rem;
+    border-radius: 5px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.song-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.song-image {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.song-item:hover .song-image {
+    transform: scale(1.1);
+}
+
+.song-details {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 0.3rem;
+    box-sizing: border-box;
+    transition: opacity 0.3s ease;
+    opacity: 0;
+}
+
+.song-item:hover .song-details {
+    opacity: 1;
+}
+
+.song-title {
+    margin-bottom: 0.2rem;
+}
+
+.song-artist {
+    font-size: 0.8rem;
+}
+
+
+#custom-audio-player {
+    position: fixed;
+    bottom: 20px;
+    margin-left: 43%;
+    transform: translateX(-50%);
+    width: auto;
+    max-width: 500px;
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 15px;
+    display: center;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 10px;
+    gap: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    animation: fadeInDown 0.5s ease forwards;
+}
+
+@keyframes fadeInDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#timeCounter {
+    font-size: 0.8rem;
+}
+
+#playPauseBtn,
+#volumeBtn {
+    background-color: transparent;
+    border: none;
+    color: #fff;
+    font-size: 1.5rem;
+    cursor: pointer;
+    outline: none;
+    transition: color 0.3s ease;
+}
+
+#playPauseBtn:hover,
+#volumeBtn:hover {
+    color: #1ed760;
+}
+
+/* Progress bar background */
+#progressBar {
+    width: auto;
+    margin: auto;
+}
+
+input[type="range"] {
+    accent-color: rgb(0, 221, 0);
+}
+
+    </style>
 </head>
 <body>
-    <header class="bg-dark text-white py-4">
-        <div class="container">
-            <h1 class="text-center">Spotify Clone</h1>
-            <input type="text" id="search" class="form-control mx-auto mt-4 search-input" placeholder="Search for songs...">
-        </div>
-    </header>
+<div class="container mt-5">
+    <h1 class="text-center mb-5">Spotify Clone</h1>
 
-    <div class="container mt-5">
-        <div id="audio-player-container" class="mb-4">
-            <audio id="audio-player" class="w-100" controls></audio>
-            <span id="song-duration" class="text-success"></span>
-        </div>
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" id="searchInput" placeholder="Search for a song">
+        <button class="btn btn-success" type="button" onclick="searchSong()">Search</button>
     </div>
 
-    <main id="results" class="container">
-        <!-- Search results will be displayed here -->
-    </main>
+    <div class="mb-3">
+        <h2 class="text-center">Search Results</h2>
+        <ul class="list-group" id="searchResults"></ul>
+    </div>
+</div>
 
-    <script src="script.js"></script>
+<!-- Custom Audio Player -->
+<div id="custom-audio-player">
+    <audio id="audioPlayer"></audio>
+    <div id="controls">
+        <button id="prevBtn" onclick="skip(-10)"><span class="fas fa-backward"></span></button>
+        <button id="playPauseBtn" onclick="playPause()"><span class="fas fa-play"></span></button>
+        <button id="nextBtn" onclick="skip(10)"><span class="fas fa-forward"></span></button>
+        <input type="range" id="progressBar" min="0" max="100" value="0">
+        <span id="timeCounter">0:00 / 0:00</span>
+        <button id="volumeBtn" onclick="toggleMute()"><span class="fas fa-volume-up"></span></button>
+        <input type="range" id="volumeBar" min="0" max="100" value="100">
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Custom JS -->
+<script>
+    const clientId = '08b02b8351a54205b7e5615e4cdf4435'; // Replace with your Spotify client ID
+    const clientSecret = '58e3602ff35040b393d3bc2c9ac92a47'; // Replace with your Spotify client secret
+    const searchInput = document.getElementById('searchInput');
+    const searchResults = document.getElementById('searchResults');
+    const audioPlayer = document.getElementById('audioPlayer');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const volumeBtn = document.getElementById('volumeBtn');
+    const progressBar = document.getElementById('progressBar');
+    const timeCounter = document.getElementById('timeCounter');
+    const volumeBar = document.getElementById('volumeBar');
+
+    async function searchSong() {
+        const query = searchInput.value;
+        const response = await fetch(`https://api.spotify.com/v1/search?q=${query}&type=track`, {
+            headers: {
+                'Authorization': 'Bearer ' + await getToken()
+            }
+        });
+        const data = await response.json();
+        displaySearchResults(data.tracks.items);
+    }
+
+    function displaySearchResults(tracks) {
+        searchResults.innerHTML = '';
+        tracks.forEach(track => {
+            const li = document.createElement('li');
+            li.classList.add('song-item');
+            const trackName = document.createElement('span');
+            trackName.textContent = track.name;
+            li.appendChild(trackName);
+
+            if (track.album.images.length > 0) {
+                const img = document.createElement('img');
+                img.src = track.album.images[0].url;
+                img.alt = 'Music Image';
+                img.classList.add('song-image');
+                li.appendChild(img);
+            }
+
+            li.addEventListener('click', () => playSong(track.preview_url));
+            searchResults.appendChild(li);
+        });
+    }
+
+    async function playSong(url) {
+        audioPlayer.src = url;
+        audioPlayer.play();
+        playPauseBtn.innerHTML = '<span class="fas fa-pause"></span>';
+    }
+
+    async function getToken() {
+        const response = await fetch('https://accounts.spotify.com/api/token', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Authorization': 'Basic ' + btoa(clientId + ':' + clientSecret)
+            },
+            body: 'grant_type=client_credentials'
+        });
+        const data = await response.json();
+        return data.access_token;
+    }
+
+    function playPause() {
+        if (audioPlayer.paused) {
+            audioPlayer.play();
+            playPauseBtn.innerHTML = '<span class="fas fa-pause"></span>';
+        } else {
+            audioPlayer.pause();
+            playPauseBtn.innerHTML = '<span class="fas fa-play"></span>';
+        }
+    }
+
+    function skip(time) {
+        audioPlayer.currentTime += time;
+    }
+
+    audioPlayer.addEventListener('timeupdate', () => {
+        const currentTime = formatTime(audioPlayer.currentTime);
+        const duration = formatTime(audioPlayer.duration);
+        const progress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+        progressBar.value = progress;
+        timeCounter.textContent = currentTime + ' / ' + duration + ' ' ;
+    });
+
+    function formatTime(seconds) {
+        const min = Math.floor(seconds / 60);
+        const sec = Math.floor(seconds % 60);
+        return min + ':' + (sec < 10 ? '0' : '') + sec;
+    }
+
+    progressBar.addEventListener('input', () => {
+        const seekTime = (progressBar.value * audioPlayer.duration) / 100;
+        audioPlayer.currentTime = seekTime;
+    });
+
+    function toggleMute() {
+        if (audioPlayer.volume === 0) {
+            audioPlayer.volume = 1;
+            volumeBtn.innerHTML = '<i class="fa fa-volume-up" aria-hidden="true"></i>';
+            volumeBar.value = 100;
+        } else {
+            audioPlayer.volume = 0;
+            volumeBtn.innerHTML = '<span class="fas fa-volume-mute"></span>';
+            volumeBar.value = 0;
+        }
+    }
+
+    volumeBar.addEventListener('input', () => {
+        audioPlayer.volume = volumeBar.value / 100;
+        if (audioPlayer.volume === 0) {
+            volumeBtn.innerHTML = '<i class="fa fa-volume-up" aria-hidden="true"></i>';
+        } else {
+            volumeBtn.innerHTML = '<span class="fas fa-volume-up"></span>';
+        }
+    });
+    
+</script>
+<script src="https://kit.fontawesome.com/a7c2e2a69b.js" crossorigin="anonymous"></script>
 </body>
 </html>
