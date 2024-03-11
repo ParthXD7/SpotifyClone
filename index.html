@@ -10,172 +10,148 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-jVw3oIBzOCJwWUkkFqYvfe6nvkZgEKptX6z83+J1d2ByzEZLUtwadYHqTqF4dK4fWlQ5e5sD4NIf3ZprjxgMAw==" crossorigin="anonymous" />
     <!-- Custom CSS -->
     <style>
-body {
-    background-color: #191414;
-    color: #fff;
-    font-family: 'Roboto', sans-serif;
-}
+        body {
+            background-color: #191414;
+            color: #fff;
+            font-family: 'Roboto', sans-serif;
+        }
 
-.container {
-    max-width: 90%;
-    margin: 0 auto;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
+        .container {
+            max-width: 90%;
+            margin: 0 auto;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
 
-.input-group {
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
+        .input-group {
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
 
-#searchInput {
-    background-color: #282828;
-    color: #fff;
-    border: none;
-    width: calc(100% - 100px);
-    padding: 0.5rem;
-    font-size: 1rem;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-}
+        #searchInput {
+            background-color: #282828;
+            color: #fff;
+            border: none;
+            width: calc(100% - 100px);
+            padding: 0.5rem;
+            font-size: 1rem;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
 
-#searchInput:focus {
-    outline: none;
-    background-color: #333;
-    box-shadow: 0 0 10px rgba(30, 215, 96, 0.5);
-}
+        #searchInput:focus {
+            outline: none;
+            background-color: #333;
+            box-shadow: 0 0 10px rgba(30, 215, 96, 0.5);
+        }
 
-/* New CSS for enhanced search results */
+        /* New CSS for enhanced search results */
 
-#searchResults {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 20px;
-    list-style: none;
-    padding: 0;
-    transition: transform 0.3s ease;
-}
+        #searchResults {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            list-style: none;
+            padding: 0;
+            transition: transform 0.3s ease;
+        }
 
-.song-item {
-    background-color: #282828;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    padding: 0.5rem;
-    font-size: 0.9rem;
-    border-radius: 5px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
+        .search-item {
+            background-color: #282828;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            font-size: 0.9rem;
+            border-radius: 5px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
 
-.song-item:hover {
-    transform: scale(1.05);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
+        .search-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
 
-.song-image {
-    width: 100%;
-    height: auto;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
-}
+        .search-image {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
 
-.song-item:hover .song-image {
-    transform: scale(1.1);
-}
+        .search-item:hover .search-image {
+            transform: scale(1.1);
+        }
 
-.song-details {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    padding: 0.3rem;
-    box-sizing: border-box;
-    transition: opacity 0.3s ease;
-    opacity: 0;
-}
+        #custom-audio-player {
+            position: fixed;
+            bottom: 20px;
+            margin-left: 43%;
+            transform: translateX(-50%);
+            width: auto;
+            max-width: 500px;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 15px;
+            display: center;
+            align-items: center;
+            justify-content: space-between;
+            border-radius: 10px;
+            gap: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            animation: fadeInDown 0.5s ease forwards;
+        }
 
-.song-item:hover .song-details {
-    opacity: 1;
-}
+        @keyframes fadeInDown {
+            0% {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
 
-.song-title {
-    margin-bottom: 0.2rem;
-}
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-.song-artist {
-    font-size: 0.8rem;
-}
+        #controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
+        #timeCounter {
+            font-size: 0.8rem;
+        }
 
-#custom-audio-player {
-    position: fixed;
-    bottom: 20px;
-    margin-left: 43%;
-    transform: translateX(-50%);
-    width: auto;
-    max-width: 500px;
-    background-color: rgba(0, 0, 0, 0.8);
-    padding: 15px;
-    display: center;
-    align-items: center;
-    justify-content: space-between;
-    border-radius: 10px;
-    gap: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    animation: fadeInDown 0.5s ease forwards;
-}
+        #playPauseBtn,
+        #volumeBtn {
+            background-color: transparent;
+            border: none;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            outline: none;
+            transition: color 0.3s ease;
+        }
 
-@keyframes fadeInDown {
-    0% {
-        opacity: 0;
-        transform: translateY(-50px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
+        #playPauseBtn:hover,
+        #volumeBtn:hover {
+            color: #1ed760;
+        }
 
-#controls {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
+        /* Progress bar background */
+        #progressBar {
+            width: auto;
+            margin: auto;
+        }
 
-#timeCounter {
-    font-size: 0.8rem;
-}
-
-#playPauseBtn,
-#volumeBtn {
-    background-color: transparent;
-    border: none;
-    color: #fff;
-    font-size: 1.5rem;
-    cursor: pointer;
-    outline: none;
-    transition: color 0.3s ease;
-}
-
-#playPauseBtn:hover,
-#volumeBtn:hover {
-    color: #1ed760;
-}
-
-/* Progress bar background */
-#progressBar {
-    width: auto;
-    margin: auto;
-}
-
-input[type="range"] {
-    accent-color: rgb(0, 221, 0);
-}
+        input[type="range"] {
+            accent-color: rgb(0, 221, 0);
+        }
 
     </style>
 </head>
@@ -184,8 +160,20 @@ input[type="range"] {
     <h1 class="text-center mb-5">Spotify Clone</h1>
 
     <div class="input-group mb-3">
-        <input type="text" class="form-control" id="searchInput" placeholder="Search for a song">
-        <button class="btn btn-success" type="button" onclick="searchSong()">Search</button>
+        <input type="text" class="form-control" id="searchInput" placeholder="Search">
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="artistCheck" value="artist">
+            <label class="form-check-label" for="artistCheck">Artist</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="albumCheck" value="album">
+            <label class="form-check-label" for="albumCheck">Album</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="playlistCheck" value="playlist">
+            <label class="form-check-label" for="playlistCheck">Playlist</label>
+        </div>
+        <button class="btn btn-success" type="button" onclick="search()">Search</button>
     </div>
 
     <div class="mb-3">
@@ -215,6 +203,9 @@ input[type="range"] {
     const clientId = '08b02b8351a54205b7e5615e4cdf4435'; // Replace with your Spotify client ID
     const clientSecret = '58e3602ff35040b393d3bc2c9ac92a47'; // Replace with your Spotify client secret
     const searchInput = document.getElementById('searchInput');
+    const artistCheck = document.getElementById('artistCheck');
+    const albumCheck = document.getElementById('albumCheck');
+    const playlistCheck = document.getElementById('playlistCheck');
     const searchResults = document.getElementById('searchResults');
     const audioPlayer = document.getElementById('audioPlayer');
     const playPauseBtn = document.getElementById('playPauseBtn');
@@ -223,39 +214,108 @@ input[type="range"] {
     const timeCounter = document.getElementById('timeCounter');
     const volumeBar = document.getElementById('volumeBar');
 
-    async function searchSong() {
+    async function search() {
         const query = searchInput.value;
-        const response = await fetch(`https://api.spotify.com/v1/search?q=${query}&type=track`, {
+        const types = [];
+        if (artistCheck.checked) types.push('artist');
+        if (albumCheck.checked) types.push('album');
+        if (playlistCheck.checked) types.push('playlist');
+        const typeString = types.length > 0 ? types.join(',') : 'track';
+        const response = await fetch(`https://api.spotify.com/v1/search?q=${query}&type=${typeString}`, {
             headers: {
                 'Authorization': 'Bearer ' + await getToken()
             }
         });
         const data = await response.json();
-        displaySearchResults(data.tracks.items);
+        displaySearchResults(data);
     }
 
-    function displaySearchResults(tracks) {
+    function displaySearchResults(data) {
         searchResults.innerHTML = '';
-        tracks.forEach(track => {
+    
+        if (data && data.tracks && data.tracks.items && data.tracks.items.length > 0) {
+            // Display tracks
+            data.tracks.items.forEach(track => {
+                const li = createListItem(track.name, track.album.images.length > 0 ? track.album.images[0].url : '', () => playSong(track.preview_url));
+                searchResults.appendChild(li);
+            });
+        } 
+        if (data && data.artists && data.artists.items && data.artists.items.length > 0) {
+            // Display artists
+            data.artists.items.forEach(artist => {
+                const li = createListItem(artist.name, artist.images.length > 0 ? artist.images[0].url : '', () => searchMusic(artist.id, 'artist'));
+                searchResults.appendChild(li);
+            });
+        } 
+        if (data && data.albums && data.albums.items && data.albums.items.length > 0) {
+            // Display albums
+            data.albums.items.forEach(album => {
+                const li = createListItem(album.name, album.images.length > 0 ? album.images[0].url : '', () => searchMusic(album.id, 'album'));
+                searchResults.appendChild(li);
+            });
+        } 
+        if (data && data.playlists && data.playlists.items && data.playlists.items.length > 0) {
+            // Display playlists
+            data.playlists.items.forEach(playlist => {
+                const li = createListItem(playlist.name, playlist.images.length > 0 ? playlist.images[0].url : '', () => searchMusic(playlist.id, 'playlist'));
+                searchResults.appendChild(li);
+            });
+        } 
+        if (!data || (!data.tracks || !data.tracks.items) && (!data.artists || !data.artists.items) && (!data.albums || !data.albums.items) && (!data.playlists || !data.playlists.items)) {
+            // Handle if no results found
             const li = document.createElement('li');
-            li.classList.add('song-item');
-            const trackName = document.createElement('span');
-            trackName.textContent = track.name;
-            li.appendChild(trackName);
-
-            if (track.album.images.length > 0) {
-                const img = document.createElement('img');
-                img.src = track.album.images[0].url;
-                img.alt = 'Music Image';
-                img.classList.add('song-image');
-                li.appendChild(img);
-            }
-
-            li.addEventListener('click', () => playSong(track.preview_url));
+            li.textContent = 'No results found';
             searchResults.appendChild(li);
-        });
+        }
     }
-
+    
+    
+    function createListItem(name, imageUrl, onClick) {
+        const li = document.createElement('li');
+        li.classList.add('search-item');
+        
+        const span = document.createElement('span');
+        span.textContent = name;
+        li.appendChild(span);
+        
+        if (imageUrl) {
+            const img = document.createElement('img');
+            img.src = imageUrl;
+            img.alt = 'Image';
+            img.classList.add('search-image');
+            li.appendChild(img);
+        }
+        
+        li.addEventListener('click', onClick);
+        
+        return li;
+    }
+    
+    
+    async function searchMusic(id, type) {
+        try {
+            const response = await fetch(`https://api.spotify.com/v1/${type}s/${id}/tracks`, {
+                headers: {
+                    'Authorization': 'Bearer ' + await getToken()
+                }
+            });
+            
+            if (!response.ok) {
+                if (response.status === 404) {
+                    console.log('Tracks for this artist are not available.');
+                    // Handle the error gracefully, such as displaying a message to the user.
+                } else {
+                    throw new Error('Network response was not ok');
+                }
+            }
+            
+            const data = await response.json();
+            displaySearchResults(data);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    }
+        
     async function playSong(url) {
         audioPlayer.src = url;
         audioPlayer.play();
@@ -263,17 +323,28 @@ input[type="range"] {
     }
 
     async function getToken() {
-        const response = await fetch('https://accounts.spotify.com/api/token', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'Authorization': 'Basic ' + btoa(clientId + ':' + clientSecret)
-            },
-            body: 'grant_type=client_credentials'
-        });
-        const data = await response.json();
-        return data.access_token;
+        try {
+            const response = await fetch('https://accounts.spotify.com/api/token', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Authorization': 'Basic ' + btoa(clientId + ':' + clientSecret)
+                },
+                body: 'grant_type=client_credentials'
+            });
+    
+            if (!response.ok) {
+                throw new Error('Failed to fetch access token');
+            }
+    
+            const data = await response.json();
+            return data.access_token;
+        } catch (error) {
+            console.error('Error fetching access token:', error);
+            return null;
+        }
     }
+    
 
     function playPause() {
         if (audioPlayer.paused) {
@@ -294,7 +365,7 @@ input[type="range"] {
         const duration = formatTime(audioPlayer.duration);
         const progress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
         progressBar.value = progress;
-        timeCounter.textContent = currentTime + ' / ' + duration + ' ' ;
+        timeCounter.textContent = currentTime + ' / ' + duration + ' ';
     });
 
     function formatTime(seconds) {
@@ -328,7 +399,7 @@ input[type="range"] {
             volumeBtn.innerHTML = '<span class="fas fa-volume-up"></span>';
         }
     });
-    
+
 </script>
 <script src="https://kit.fontawesome.com/a7c2e2a69b.js" crossorigin="anonymous"></script>
 </body>
