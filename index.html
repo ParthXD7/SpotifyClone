@@ -156,31 +156,42 @@
     </style>
 </head>
 <body>
-<div class="container mt-5">
-    <h1 class="text-center mb-5">Spotify Clone</h1>
+    <div class="container mt-5">
+        <h1 class="text-center mb-5">Spotify Clone</h1>
+    
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" id="searchInput" placeholder="Search">
+            <button class="btn btn-success" type="button" onclick="search()">Search</button>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="artistCheck" value="artist">
+                <label class="form-check-label" for="artistCheck">Artist</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="albumCheck" value="album" >
+                <label class="form-check-label" for="albumCheck">Album</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="playlistCheck" value="playlist" >
+                <label class="form-check-label" for="playlistCheck">Playlist</label>
+            </div>
 
-    <div class="input-group mb-3">
-        <input type="text" class="form-control" id="searchInput" placeholder="Search">
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" id="artistCheck" value="artist">
-            <label class="form-check-label" for="artistCheck">Artist</label>
         </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" id="albumCheck" value="album">
-            <label class="form-check-label" for="albumCheck">Album</label>
+    
+        <div class="row">
+            <div class="col-md-8">
+                <div class="mb-3">
+                    <h2 class="text-center">Search Results</h2>
+                    <ul class="list-group" id="searchResults"></ul>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="mb-3">
+                    <h2 class="text-center">Favorites</h2>
+                    <ul class="list-group" id="favorites"></ul>
+                </div>
+            </div>
         </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" id="playlistCheck" value="playlist">
-            <label class="form-check-label" for="playlistCheck">Playlist</label>
-        </div>
-        <button class="btn btn-success" type="button" onclick="search()">Search</button>
     </div>
-
-    <div class="mb-3">
-        <h2 class="text-center">Search Results</h2>
-        <ul class="list-group" id="searchResults"></ul>
-    </div>
-</div>
 
 <!-- Custom Audio Player -->
 <div id="custom-audio-player">
@@ -287,10 +298,10 @@
         }
         
         li.addEventListener('click', onClick);
-        
+        li.addEventListener('dblclick', () => addToFavorites(name, imageUrl, onClick));
         return li;
     }
-    
+
     
     async function searchMusic(id, type) {
         try {
@@ -399,6 +410,47 @@
             volumeBtn.innerHTML = '<span class="fas fa-volume-up"></span>';
         }
     });
+    
+    async function addToFavorites(name, imageUrl, onClick) {
+        const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        const newFavorite = { name, imageUrl, onClick };
+        favorites.push(newFavorite);
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+        alert('Added to Favorites');
+    }
+
+    function removeFromFavorites(id) {
+        let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        favorites = favorites.filter(favorite => favorite.id !== id);
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+        displayFavorites();
+    }
+
+    async function addToFavoritesFromSearch(name, imageUrl, id) {
+        addToFavorites(name, imageUrl, id);
+        alert('Added to Favorites');
+    }
+
+
+    function displayFavorites() {
+        const favoritesList = document.getElementById('favorites');
+        favoritesList.innerHTML = '';
+        const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        favorites.forEach(favorite => {
+            const li = document.createElement('li');
+            li.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center');
+            li.innerHTML = `
+                <span>${favorite.name}</span>
+                <button class="btn btn-danger btn-sm" onclick="removeFromFavorites('${favorite.id}')">Remove</button>
+            `;
+            li.addEventListener('dblclick', () => playSong(favorite.onClick));
+            favoritesList.appendChild(li);
+        });
+    }
+
+
+
+    window.onload = displayFavorites;
 
 </script>
 <script src="https://kit.fontawesome.com/a7c2e2a69b.js" crossorigin="anonymous"></script>
